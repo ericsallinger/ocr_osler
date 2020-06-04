@@ -74,9 +74,10 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "ocr_osler.users.apps.UsersConfig",
-    # Your stuff: custom apps go here
+    "ocr_osler.users.apps.UsersConfig", #create users app
+    "ocr_osler.imagebase.apps.ImagebaseConfig", #app to load images
 ]
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
