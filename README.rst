@@ -1,7 +1,7 @@
 Ocr_osler
 =========
 
-Optical character recognition for Osler OCR
+Optical character recognition for Osler OCR - Built by Eric Sallinger, Ahmed Hanafy, Steven Angtuaco, Charles Lu
 
 .. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
      :target: https://github.com/pydanny/cookiecutter-django/
