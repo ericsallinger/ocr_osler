@@ -5,5 +5,5 @@ from .models import Image
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name','slug')
 
