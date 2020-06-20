@@ -42,7 +42,14 @@ LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
 DATABASES = {
-    "default": env.db("DATABASE_URL", default="postgres:///ocr_osler")
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ocr_osler',
+        'USER': 'Charles Lu',
+        'PASSWORD': 'lightlord',
+        'HOST': '',
+        'PORT': '',
+    }
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
@@ -74,8 +81,8 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "ocr_osler.users.apps.UsersConfig", #create users app
-    "ocr_osler.imagebase.apps.ImagebaseConfig", #app to load images
+    "ocr_osler.users.apps.UsersConfig",  # create users app
+    "ocr_osler.imagebase.apps.ImagebaseConfig",  # app to load images
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
