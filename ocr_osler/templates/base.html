@@ -13,7 +13,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
 
-    <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}">
+    <link rel="icon" href="{% static 'file_uploads/favicons/favicon.ico' %}">
 
     {% block css %}
     
@@ -48,6 +48,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'about' %}">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'file_uploads:list' %}">Uploads</a>
             </li>
             {% if request.user.is_authenticated %}
               <li class="nav-item">
@@ -109,6 +112,7 @@
       
 
     {% endblock javascript %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   </body>
 </html>
  

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Files: {{ file_upload.name}} {% endblock %}
+
+{% block content %}
+<h2>{{file_upload.name}}</h2>
+
+<p>
+    <a class="btn btn-primary" href="{% url 'file_uploads:update' file_upload.slug %}" role="button">
+        Change Status 
+        
+    </a>
+</p>
+
+<p>
+    {{file_upload.get_ocrStatusChoice_display}}
+</p>
+
+
+
+<form id="pony_form" method="POST" action="{% url pony_update_view pony.pk %}">
+    {% csrf_token %}
+    <label for="id_name">Pony Name</label>
+    <input type="text" name="name" id="id_name">
+    <input type="submit" value="Submit">
+</form>
+
+
+{% endblock content %}
+

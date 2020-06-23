@@ -86,7 +86,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "ocr_osler.users.apps.UsersConfig", #create users app
-    "ocr_osler.images.apps.ImageConfig", #app to load images
+    "ocr_osler.file_uploads.apps.File_UploadConfig",  # app to upload files
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
