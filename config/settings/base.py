@@ -82,6 +82,8 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "tesserocr",  # OCR Module
+    "Cython", #C to python
 ]
 
 LOCAL_APPS = [
