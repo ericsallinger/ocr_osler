@@ -41,8 +41,19 @@ LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
+
+###
+#DATABASES settings will have to be modified for each new user as postgres settings are created locally
 DATABASES = {
-    "default": env.db("DATABASE_URL", default="postgres:///ocr_osler")
+    # "default": env.db("DATABASE_URL", default="postgres://localhost/ocr_osler")
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ericsallinger',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    }
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
@@ -71,11 +82,13 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "tesserocr",  # OCR Module
+    "Cython", #C to python
 ]
 
 LOCAL_APPS = [
     "ocr_osler.users.apps.UsersConfig", #create users app
-    "ocr_osler.imagebase.apps.ImagebaseConfig", #app to load images
+    "ocr_osler.file_uploads.apps.File_UploadConfig",  # app to upload files
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
