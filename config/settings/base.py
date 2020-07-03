@@ -84,6 +84,7 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount",
     "tesserocr",  # OCR Module
     "Cython", #C to python
+    "pdf2image", #convert to imagefiles
 ]
 
 LOCAL_APPS = [

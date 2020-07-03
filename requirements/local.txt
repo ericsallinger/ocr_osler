@@ -34,3 +34,4 @@ pytest-django==3.9.0  # https://github.com/pytest-dev/pytest-django
 # ------------------------------------------------------------------------------
 Cython==0.29.20
 tesserocr==2.5.1
+pdf2image==1.13.1
