@@ -10,7 +10,9 @@ class File_upload(TimeStampedModel):
         name = models.CharField("File Name", max_length=255)
         slug = AutoSlugField("File Slug", unique=True, always_update=False, populate_from="name", primary_key=True)
         uploadedFile = models.FileField(upload_to='unscannedfiles/', default='unscannedfiles/default.jpg')
-
+        # name = ''
+        # slug=  ''
+        # uploadedFile = ''
         #change ocr status when called to ocr functions
         class OCRStatus(models.TextChoices):
                 awaitingOCR = "awaitingocr", "AwaitingOCR" 
