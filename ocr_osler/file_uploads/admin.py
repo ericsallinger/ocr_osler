@@ -1,8 +1,10 @@
 from django.contrib import admin
+from django import forms
 
 from .models import File_upload
 from django.contrib import messages
 from django.utils.translation import ngettext
+from django.template.defaultfilters import slugify
 import os
 from PIL import Image, ImageFilter
 import tesserocr
@@ -11,13 +13,21 @@ from pdf2image import convert_from_path
 
 @admin.register(File_upload)
 class File_uploadAdmin(admin.ModelAdmin):
+    exclude = ['name']
+    # exclude = ['fileUpload']
      # allow for multiple file uploads
     def save_model(self, request, obj, form, change):
         obj.save()
         files = request.FILES.getlist('photos_multiple')
+        print(File_upload.objects.all())
+        File_upload.objects.filter(slug='file_upload').delete()
+
+        
         for afile in files:
             # obj.uploadedFile.create(uploadedFile=afile)
             instance = File_upload(uploadedFile=afile)
+            instance.name = afile
+            instance.slug = slugify(afile)
             instance.save()
 
     #calls tesserocr and prints to shell. also changes the stauts of file model to 'completedocr'
@@ -31,7 +41,6 @@ class File_uploadAdmin(admin.ModelAdmin):
             bareName, extension = os.path.splitext(fileName)
 
             #prepare to save file in output directory
-            print(os.getcwd())
             os.chdir("ocr_osler/file_uploads/scannedText/")
             outputFile = File_upload.slug+".txt"
             file = open(outputFile, "w")
@@ -65,7 +74,6 @@ class File_uploadAdmin(admin.ModelAdmin):
 def isImageFile(filePath):
     imageFileExtensions = ['.png', '.jpg', '.jpeg', '.tiff', '.tif', '.bmp', '.gif']
     basename, extension = os.path.splitext(filePath)
-    print(extension.lower())
     if extension.lower() in imageFileExtensions:
         return True
     else:
@@ -73,7 +81,6 @@ def isImageFile(filePath):
 
 def convertToImage(filePath):
     convertedImage = convert_from_path(filePath, 500)
-    print("made it")
     basename, extension = os.path.splitext(filePath)
     newPath = basename + ".jpg"
     return convertedImage.save(newPath, 'JPEG')
