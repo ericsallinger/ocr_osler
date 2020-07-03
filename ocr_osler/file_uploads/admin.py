@@ -26,8 +26,9 @@ class File_uploadAdmin(admin.ModelAdmin):
             bareName, extension = os.path.splitext(fileName)
 
             #prepare to save file in output directory
+            print(os.getcwd())
             os.chdir("ocr_osler/file_uploads/scannedText/")
-            outputFile = bareName+".txt"
+            outputFile = File_upload.slug+".txt"
             file = open(outputFile, "w")
 
             #check if you need to convert to pdf
@@ -35,10 +36,11 @@ class File_uploadAdmin(admin.ModelAdmin):
                 readFile = Image.open(File_upload.uploadedFile)
                 file.write(tesserocr.image_to_text(readFile))
                 file.close
-                os. chdir("../../..")           
+                           
             else:
-                readFile = Image.open(convertToImage(filePath))       
-                print(tesserocr.image_to_text(readFile))
+                # readFile = Image.open(convertToImage(filePath))       
+                print("not an image")
+            os. chdir("../../..")
 
         # alert user to status of action   
         updated = queryset.update(ocrStatusChoice='completedocr')
@@ -54,8 +56,9 @@ class File_uploadAdmin(admin.ModelAdmin):
 #helper methods
 
 def isImageFile(filePath):
-    imageFileExtensions = ['.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif']
+    imageFileExtensions = ['.png', '.jpg', '.jpeg', '.tiff', '.tif', '.bmp', '.gif']
     basename, extension = os.path.splitext(filePath)
+    print(extension.lower())
     if extension.lower() in imageFileExtensions:
         return True
     else:
