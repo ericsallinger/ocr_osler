@@ -45,12 +45,11 @@ LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 ###
 #DATABASES settings will have to be modified for each new user as postgres settings are created locally
 DATABASES = {
-    # "default": env.db("DATABASE_URL", default="postgres://localhost/ocr_osler")
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ericsallinger',
-        'USER': '',
-        'PASSWORD': '',
+        'NAME': 'ocr_osler',
+        'USER': 'Charles Lu',
+        'PASSWORD': 'lightlord',
         'HOST': '',
         'PORT': '',
     }
