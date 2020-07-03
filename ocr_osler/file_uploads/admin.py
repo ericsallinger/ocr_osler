@@ -9,11 +9,16 @@ import tesserocr
 from pdf2image import convert_from_path
 
 
-
 @admin.register(File_upload)
 class File_uploadAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'ocrStatusChoice')
-    
+     # allow for multiple file uploads
+    def save_model(self, request, obj, form, change):
+        obj.save()
+        files = request.FILES.getlist('photos_multiple')
+        for afile in files:
+            # obj.uploadedFile.create(uploadedFile=afile)
+            instance = File_upload(uploadedFile=afile)
+            instance.save()
 
     #calls tesserocr and prints to shell. also changes the stauts of file model to 'completedocr'
     #currently only supports images (Not pdfs)
@@ -49,9 +54,11 @@ class File_uploadAdmin(admin.ModelAdmin):
             '%d stories were successfully sent to OCR module.',
             updated,
         ) % updated, messages.SUCCESS)
+    
     run_ocr.short_description = "Run OCR on selected files"
     
     actions = [run_ocr]
+    list_display = ('name', 'slug', 'ocrStatusChoice')
 
 #helper methods
 
