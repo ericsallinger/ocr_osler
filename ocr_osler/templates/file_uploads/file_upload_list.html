@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Uploaded Files {% endblock title%}
+
+{% block content %}
+    <h2>Uploaded Files</h2>
+
+<ul>
+    {% for file_upload in file_upload_list %}
+        <li><a href="{% url 'file_uploads:detail' file_upload.slug %}">{{ file_upload.name }}</a></li>
+    {% endfor %}
+</ul>
+
+<hr/>
+<p>Don't see a file_upload listed?</p>
+<p>
+    <a class="btn btn-primary" href="{% url 'file_uploads:add' %}" role="button">
+        Add file_upload
+    </a>
+</p>
+{% endblock content %}
