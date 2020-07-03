@@ -14,7 +14,6 @@ from pdf2image import convert_from_path
 class File_uploadAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'ocrStatusChoice')
     
-  
 
     #calls tesserocr and prints to shell. also changes the stauts of file model to 'completedocr'
     #currently only supports images (Not pdfs)
