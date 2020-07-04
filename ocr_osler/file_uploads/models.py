@@ -7,9 +7,10 @@ from django.urls import reverse
 
 # create File objects with ability to change ocr status
 class File_upload(TimeStampedModel):
-        name = models.CharField("File Name", max_length=255)
+        name = models.CharField("File Name", max_length=255, default='undefined')
         slug = AutoSlugField("File Slug", unique=True, always_update=False, populate_from="name", primary_key=True)
         uploadedFile = models.FileField(upload_to='unscannedfiles/', default='unscannedfiles/default.jpg')
+        uploadedBy = models.CharField("Uploaded By", max_length=255, default='undefined')
         # name = ''
         # slug=  ''
         # uploadedFile = ''
@@ -21,7 +22,8 @@ class File_upload(TimeStampedModel):
 
         ocrStatusChoice = models.CharField("OCR Status", max_length=20, 
                 choices=OCRStatus.choices, default=OCRStatus.awaitingOCR)
-                
+
+
         def changeOcrStatus(self,newStatus):
                 self.OCRStatus = newStatus
                 return self.OCRStatus

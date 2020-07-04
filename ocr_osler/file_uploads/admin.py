@@ -13,14 +13,15 @@ from pdf2image import convert_from_path
 
 @admin.register(File_upload)
 class File_uploadAdmin(admin.ModelAdmin):
-    exclude = ['name']
+    exclude = ['name', 'slug','ocrStatusChoice','uploadedBy']
+
     # exclude = ['fileUpload']
      # allow for multiple file uploads
     def save_model(self, request, obj, form, change):
         obj.save()
         files = request.FILES.getlist('photos_multiple')
         print(File_upload.objects.all())
-        File_upload.objects.filter(slug='file_upload').delete()
+        File_upload.objects.filter(name='undefined').delete()
 
         
         for afile in files:
@@ -28,6 +29,7 @@ class File_uploadAdmin(admin.ModelAdmin):
             instance = File_upload(uploadedFile=afile)
             instance.name = afile
             instance.slug = slugify(afile)
+            instance.uploadedBy = str(request.user)
             instance.save()
 
     #calls tesserocr and prints to shell. also changes the stauts of file model to 'completedocr'
@@ -65,9 +67,12 @@ class File_uploadAdmin(admin.ModelAdmin):
         ) % updated, messages.SUCCESS)
     
     run_ocr.short_description = "Run OCR on selected files"
+
+    def getUser(self, request, queryset):
+        print(request.user)
     
-    actions = [run_ocr]
-    list_display = ('name', 'slug', 'ocrStatusChoice')
+    actions = [run_ocr, getUser]
+    list_display = ('name', 'slug', 'ocrStatusChoice', 'uploadedBy')
 
 #helper methods
 
