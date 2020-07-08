@@ -9,6 +9,9 @@ import os
 from PIL import Image, ImageFilter
 import tesserocr
 from pdf2image import convert_from_path
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from django.conf import settings
 
 
 @admin.register(File_upload)
@@ -20,17 +23,19 @@ class File_uploadAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.save()
         files = request.FILES.getlist('photos_multiple')
-        print(File_upload.objects.all())
-        File_upload.objects.filter(name='undefined').delete()
-
-        
+        # File_upload.objects.filter(name='undefined').delete()
         for afile in files:
-            # obj.uploadedFile.create(uploadedFile=afile)
-            instance = File_upload(uploadedFile=afile)
+            #save non imagefiles locally so they can be converted to images
+            if not isImageFile(str(afile)):
+                path = default_storage.save('ocr_osler/file_uploads/unscannedfiles/'+str(afile), ContentFile(afile.read()))
+                tmp_file = os.path.join(settings.MEDIA_ROOT, path) 
+                instance = convertToImage(str(afile))
+            else:
+                instance = File_upload(uploadedFile=afile)
             instance.name = afile
             instance.slug = slugify(afile)
             instance.uploadedBy = str(request.user)
-            instance.save()
+            instance.save('ocr_osler/file_uploads/unscannedfiles')
 
     #calls tesserocr and prints to shell. also changes the stauts of file model to 'completedocr'
     #currently only supports images (Not pdfs)
@@ -43,18 +48,20 @@ class File_uploadAdmin(admin.ModelAdmin):
             bareName, extension = os.path.splitext(fileName)
 
             #prepare to save file in output directory
-            os.chdir("ocr_osler/file_uploads/scannedText/")
+            
             outputFile = File_upload.slug+".txt"
             file = open(outputFile, "w")
 
             #check if you need to convert to pdf
             if isImageFile(filePath):
+                os.chdir("ocr_osler/file_uploads/scannedText/")
                 readFile = Image.open(File_upload.uploadedFile)
                 file.write(tesserocr.image_to_text(readFile))
                 file.close
                            
             else:
-                # readFile = Image.open(convertToImage(filePath))       
+                # os. chdir("../../..")
+                readFile = Image.open(convertToImage(filePath))       
                 print("not an image")
             os. chdir("../../..")
 
@@ -68,10 +75,7 @@ class File_uploadAdmin(admin.ModelAdmin):
     
     run_ocr.short_description = "Run OCR on selected files"
 
-    def getUser(self, request, queryset):
-        print(request.user)
-    
-    actions = [run_ocr, getUser]
+    actions = [run_ocr]
     list_display = ('name', 'slug', 'ocrStatusChoice', 'uploadedBy')
 
 #helper methods
@@ -84,9 +88,16 @@ def isImageFile(filePath):
     else:
         return False
 
-def convertToImage(filePath):
-    convertedImage = convert_from_path(filePath, 500)
-    basename, extension = os.path.splitext(filePath)
-    newPath = basename + ".jpg"
-    return convertedImage.save(newPath, 'JPEG')
 
+def convertToImage(filePath):
+    os.chdir("ocr_osler/file_uploads/unscannedfiles/")
+    print(os.getcwd())
+    print(os.listdir())
+    convertedImages = convert_from_path(filePath, 500)
+    basename, extension = os.path.splitext(filePath)
+    num=1
+    for page in convertedImages:
+        newPath = basename + "_" + str(num) + ".jpg"
+        page.save(newPath, 'JPEG')
+        num += 1
+    return File_upload(uploadedFile=page)
