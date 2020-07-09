@@ -9,7 +9,10 @@ from django.urls import reverse
 class File_upload(TimeStampedModel):
         name = models.CharField("File Name", max_length=255, default='undefined')
         slug = AutoSlugField("File Slug", unique=True, always_update=False, populate_from="name", primary_key=True)
-        uploadedFile = models.FileField(upload_to='unscannedfiles/', default='unscannedfiles/default.jpg')
+        uploadedFile = models.FileField(
+            upload_to='ocr_osler/file_uploads/unscannedfiles/', 
+            default='ocr_osler/file_uploads/unscannedfiles/default.jpg'
+        )
         uploadedBy = models.CharField("Uploaded By", max_length=255, default='undefined')
         # name = ''
         # slug=  ''
