@@ -47,9 +47,9 @@ LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ericsallinger',
-        'USER': '',
-        'PASSWORD': '',
+        'NAME': 'ocr_osler',
+        'USER': 'charleslu',
+        'PASSWORD': 'Lightlord99!',
         'HOST': '',
         'PORT': '',
     }
@@ -89,6 +89,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "ocr_osler.users.apps.UsersConfig", #create users app
     "ocr_osler.file_uploads.apps.File_UploadConfig",  # app to upload files
+    "file_uploads.models.File_upload",
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
