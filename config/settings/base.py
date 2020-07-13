@@ -84,6 +84,7 @@ THIRD_PARTY_APPS = [
     "tesserocr",  # OCR Module
     "Cython", #C to python
     "pdf2image", #convert to imagefiles
+    'rest_framework', #for REST API
 ]
 
 LOCAL_APPS = [
@@ -283,3 +284,8 @@ SOCIALACCOUNT_ADAPTER = "ocr_osler.users.adapters.SocialAccountAdapter"
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser',
+    ),
+}

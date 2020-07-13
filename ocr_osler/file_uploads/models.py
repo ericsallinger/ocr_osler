@@ -1,5 +1,5 @@
+import uuid as uuid_lib
 from django.db import models
-
 from autoslug import AutoSlugField
 from model_utils.models import TimeStampedModel
 from django.urls import reverse
@@ -14,15 +14,17 @@ class File_upload(TimeStampedModel):
             default='ocr_osler/file_uploads/unscannedfiles/default.jpg'
         )
         uploadedBy = models.CharField("Uploaded By", max_length=255, default='undefined')
-        # name = ''
-        # slug=  ''
-        # uploadedFile = ''
+        uuid = models.UUIDField( #used by API to look up the record
+                db_index=True,
+                default=uuid_lib.uuid4,
+                editable=False
+        )
+        
         #change ocr status when called to ocr functions
         class OCRStatus(models.TextChoices):
                 awaitingOCR = "awaitingocr", "AwaitingOCR" 
                 queuedForOCR = "queuedforocr", "QueuedForOCR"
                 completedOCR = "completedocr", "CompletedOCR"
-
         ocrStatusChoice = models.CharField("OCR Status", max_length=20, 
                 choices=OCRStatus.choices, default=OCRStatus.awaitingOCR)
 

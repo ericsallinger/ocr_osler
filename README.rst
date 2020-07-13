@@ -76,6 +76,7 @@ Deployment
 
 The following details how to deploy this application.
 
-
+pip installs:
+  pip install djangorestframework
 
 

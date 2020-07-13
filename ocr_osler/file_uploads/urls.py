@@ -3,8 +3,23 @@ from . import views
 from django.conf.urls import url
 
 
+# Wire up our API using automatic URL routing.
+# Additionally, we include login URLs for the browsable API.
 app_name = "file_uploads"
 urlpatterns = [
+    # REST API
+    # /file_uploads/api/
+    url(
+        regex=r'^api/$',
+        view=views.File_uploadCreateAPIView.as_view(),
+        name='file_rest_api'
+    ),
+    # /file_uploads/api/:slug/
+    url(
+        regex=r'^api/(?P<uuid>[-\w]+)/$',
+        view=views.File_uploadRetrieveUpdateDestroyAPIView.as_view(),
+        name='file_rest_api'
+    ),
     path(
         route='',
         view=views.File_uploadListView.as_view(),

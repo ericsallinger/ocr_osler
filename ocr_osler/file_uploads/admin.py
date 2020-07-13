@@ -94,7 +94,6 @@ def cleanFile(fileUploadObj):
         del fileObj.tag_v2[34377]
         del fileObj.tag_v2[700]
 
-
 #converts pdf file to jpg and saved it to correct directory
 def convertToImage(filePath):
     os.chdir("ocr_osler/file_uploads/unscannedfiles/")
